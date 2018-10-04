@@ -1,8 +1,17 @@
 {
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "pm2": "^3.2.1",
+    "shelljs": "^0.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
   },
   "scripts": {
-    "start": "node src/server.js"
+    "dev": "nodemon src/server.js",
+    "start": "pm2 start src/server.js --name server",
+    "stop": "pm2 delete server",
+    "restart": "yarn stop && yarn start"
   }
 }

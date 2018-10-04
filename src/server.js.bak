@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     res.send(`
     <html>
       <body>
-        Welcome to the server<br>
+        Welcome. Here is the code you requested.<br>
 
         <textarea id='server-code'>
           ${escape(contents)}
