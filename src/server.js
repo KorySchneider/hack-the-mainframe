@@ -15,6 +15,7 @@ app.use((req, res, next) => {
   }
 });
 
+// Serve the code
 app.get('/', (req, res) => {
   fs.readFile(__filename, 'utf-8', (err, contents) => {
     res.send(`
@@ -61,6 +62,7 @@ app.get('/', (req, res) => {
   });
 });
 
+// Restart server with new code
 app.post('/', (req, res) => {
   fs.writeFile(__filename, req.text, err => {
     if (err) throw err;
