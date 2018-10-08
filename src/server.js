@@ -53,21 +53,21 @@ app.get('/', (req, res) => {
           text-align: center;
           padding: 50px 0;
           background-color: #000;
-          color: #00FF00;
+          color: #0F0;
         }
         textarea {
           width: 700px;
           height: 600px;
         }
-        ::-webkit-scrollbar {
-          display: none;
-        }
         button, textarea {
           background-color: #000;
           color: #00FF00;
-          border-color: #00FF00;
+          border-color: #0F0;
           outline: none;
         }
+        ::selection { background: #999; }
+        ::-moz-selection { background: #999; }
+        ::-webkit-scrollbar { display: none; }
       </style>
     </html>
     `);
