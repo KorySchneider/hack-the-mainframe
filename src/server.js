@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  fs.readFile(__filename, 'utf-8', (err, contents) => {
+  fs.readFile(__filename, 'utf-8', (err, serverCode) => {
     res.send(`
       <html>
         <title>THE MAINFRAME</title>
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
           <p>Welcome. Here is the <span id='code'>code</span> you requested.</p>
 
           <textarea id='server-code'>
-            ${escape(contents)}
+            ${escape(serverCode)}
           </textarea><br><br>
 
           <button id='reload'><h3>HACK THE MAINFRAME</h3></button>
