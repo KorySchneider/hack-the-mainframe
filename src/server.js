@@ -1,9 +1,9 @@
 const express = require('express');
-const app = express();
 const fs = require('fs');
 const shell = require('shelljs');
 
-// Middleware to handle plaintext from POST
+const app = express();
+
 app.use((req, res, next) => {
   if (req.is('text/*')) {
     req.text = ''
@@ -15,46 +15,58 @@ app.use((req, res, next) => {
   }
 });
 
-// Serve the code
 app.get('/', (req, res) => {
   fs.readFile(__filename, 'utf-8', (err, contents) => {
     res.send(`
     <html>
       <title>THE MAINFRAME</title>
       <body>
-        <p>Welcome. Here is the code you requested.</p>
+        <p>Welcome. Here is the <span id='code'>code</span> you requested.</p>
 
         <textarea id='server-code'>
           ${escape(contents)}
         </textarea><br><br>
 
-        <button id='reload'>HACK THE MAINFRAME</button>
+        <button id='reload'><h3>HACK THE MAINFRAME</h3></button>
       </body>
 
       <script>
         window.onload = () => {
           let textarea = document.querySelector('#server-code');
           textarea.value = unescape(textarea.value).trim();
+
+          document.querySelector('#reload').addEventListener('click', event => {
+            fetch('/', {
+              method: 'POST',
+              body: document.querySelector('#server-code').value,
+              headers: {
+                'Content-Type': 'text/plain'
+              }
+            }).then(setTimeout(() => location.reload() , 3000));
+          });
         }
-        document.querySelector('#reload').addEventListener('click', event => {
-          fetch('/', {
-            method: 'POST',
-            body: document.querySelector('#server-code').value,
-            headers: {
-              'Content-Type': 'text/plain'
-            }
-          }).then(setTimeout(() => location.reload() , 3000));
-        });
       </script>
 
       <style>
         html, body {
           font-family: monospace;
           text-align: center;
+          padding: 50px 0;
+          background-color: #000;
+          color: #00FF00;
         }
         textarea {
           width: 700px;
           height: 600px;
+        }
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        button, textarea {
+          background-color: #000;
+          color: #00FF00;
+          border-color: #00FF00;
+          outline: none;
         }
       </style>
     </html>
@@ -62,7 +74,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Restart server with new code
 app.post('/', (req, res) => {
   fs.writeFile(__filename, req.text, err => {
     if (err) throw err;
