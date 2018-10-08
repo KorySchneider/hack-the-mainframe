@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
         <title>THE MAINFRAME</title>
 
         <body>
-          <p>Welcome. Here is the <span id='code'>code</span> you requested.</p>
+          <p>Welcome. Here is the code you requested.</p>
 
           <textarea id='server-code'>
             ${escape(serverCode)}
