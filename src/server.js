@@ -19,8 +19,9 @@ app.get('/', (req, res) => {
   fs.readFile(__filename, 'utf-8', (err, contents) => {
     res.send(`
     <html>
+      <title>THE MAINFRAME</title>
       <body>
-        Welcome to the server<br>
+        <p>Welcome. Here is the code you requested.</p>
 
         <textarea id='server-code'>
           ${escape(contents)}
