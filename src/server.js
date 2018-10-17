@@ -15,8 +15,10 @@ app.use((req, res, next) => {
   }
 });
 
+const thisFile = __filename;
 app.get('/', (req, res) => {
-  fs.readFile(__filename, 'utf-8', (err, serverCode) => {
+  fs.readFile(thisFile, 'utf-8', (err, contents) => {
+    code = escape(contents);
     res.send(`
       <html>
         <title>THE MAINFRAME</title>
@@ -25,7 +27,7 @@ app.get('/', (req, res) => {
           <p>Welcome. Here is the code you requested.</p>
 
           <textarea id='server-code'>
-            ${escape(serverCode)}
+            ${code}
           </textarea><br><br>
 
           <button id='reload'><h3>HACK THE MAINFRAME</h3></button>
@@ -34,9 +36,13 @@ app.get('/', (req, res) => {
         <script>
           window.onload = () => {
             let textarea = document.querySelector('#server-code');
-            textarea.value = unescape(textarea.value).trim();
+            setTimeout(() => {
+              textarea.value = unescape(textarea.value).trim()
+            }, 250);
 
-            document.querySelector('#reload').addEventListener('click', event => {
+            // On button press: POST new server code, wait 3 sec, refresh page
+            let btn = document.querySelector('#reload');
+            btn.addEventListener('click', event => {
               fetch('/', {
                 method: 'POST',
                 body: document.querySelector('#server-code').value,
