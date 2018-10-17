@@ -5,8 +5,7 @@ To run this webtoy, you will need:
   - yarn: `$ sudo npm i -g yarn` (after installing node)
 
 1. Clone repository: `$ git clone
-   https://github.com/koryschneider/hack-the-mainframe` (or navigate to that
-   link and download as a zip file)
+   https://github.com/koryschneider/hack-the-mainframe` (or download as a zip file)
 
 2. Navigate to the folder: `$ cd hack-the-mainframe`
 
