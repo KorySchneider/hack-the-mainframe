@@ -12,3 +12,5 @@ To run this webtoy, you will need:
 3. Install dependencies: `$ yarn`
 
 4. Start process: `$ yarn start`
+
+5. Go to `localhost:8080` in your browser
