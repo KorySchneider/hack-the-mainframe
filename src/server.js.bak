@@ -1,9 +1,9 @@
 const express = require('express');
-const app = express();
 const fs = require('fs');
 const shell = require('shelljs');
 
-// Middleware to handle plaintext from POST
+const app = express();
+
 app.use((req, res, next) => {
   if (req.is('text/*')) {
     req.text = ''
@@ -15,47 +15,47 @@ app.use((req, res, next) => {
   }
 });
 
+const thisFile = __filename;
 app.get('/', (req, res) => {
-  fs.readFile(__filename, 'utf-8', (err, contents) => {
+  fs.readFile(thisFile, 'utf-8', (err, contents) => {
+    code = escape(contents);
     res.send(`
-    <html>
-      <body>
-        Welcome. Here is the code you requested.<br>
+      <html>
+        <title>THE MAINFRAME</title>
 
-        <textarea id='server-code'>
-          ${escape(contents)}
-        </textarea><br><br>
+        <body>
+          <p>Welcome. Here is the code you requested.</p>
 
-        <button id='reload'>HACK THE MAINFRAME</button>
-      </body>
+          <textarea id='server-code'>
+            ${code}
+          </textarea><br><br>
 
-      <script>
-        window.onload = () => {
-          let textarea = document.querySelector('#server-code');
-          textarea.value = unescape(textarea.value).trim();
-        }
-        document.querySelector('#reload').addEventListener('click', event => {
-          fetch('/', {
-            method: 'POST',
-            body: document.querySelector('#server-code').value,
-            headers: {
-              'Content-Type': 'text/plain'
-            }
-          }).then(setTimeout(() => location.reload() , 3000));
-        });
-      </script>
+          <button id='reload'><h3>HACK THE MAINFRAME</h3></button>
+        </body>
 
-      <style>
-        html, body {
-          font-family: monospace;
-          text-align: center;
-        }
-        textarea {
-          width: 700px;
-          height: 600px;
-        }
-      </style>
-    </html>
+        <script>
+          window.onload = () => {
+            let textarea = document.querySelector('#server-code');
+            setTimeout(() => {
+              textarea.value = unescape(textarea.value).trim()
+            }, 250);
+
+            // On button press: POST new server code, wait 3 sec, refresh page
+            let btn = document.querySelector('#reload');
+            btn.addEventListener('click', event => {
+              fetch('/', {
+                method: 'POST',
+                body: document.querySelector('#server-code').value,
+                headers: {
+                  'Content-Type': 'text/plain'
+                }
+              }).then(setTimeout(() => location.reload() , 3000));
+            });
+          }
+        </script>
+
+        <style>body,button,html,textarea{background-color:#000;color:#0F0}body,html{font-family:monospace;text-align:center;padding:50px 0}textarea{width:700px;height:600px;margin:10px;padding:10px}button,textarea{border-color:#0F0;outline:0}::selection{background:#999}::-moz-selection{background:#999}::-webkit-scrollbar{display:none}</style>
+      </html>
     `);
   });
 });
