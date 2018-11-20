@@ -15,3 +15,5 @@ To run this webtoy, you will need:
 4. Start process: `$ yarn start`
 
 5. Go to `localhost:8080` in your browser
+
+![screenshot](screenshot.png)
